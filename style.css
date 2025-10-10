@@ -1,54 +1,6 @@
 body {
+    /* Set line height to 1.5 times the font size
+         and use the OS’s UI font as the website font
+       */
     font: 100%/1.5 system-ui;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-    color: #333;
-  }
-nav {
-    background-color: #0077cc;
-    padding: 10px;
-  }
-  
-  nav a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
-  form {
-    margin-top: 20px;
-    max-width: 400px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: inherit;
-  }
-  
-  button {
-    background-color: #0077cc;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #005fa3;
   }
