@@ -129,4 +129,31 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+  .projects h2 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
   
+  .projects img {
+    width: 100%;
+    border-radius: 5px;
+    margin-block: 0.5em;
+  }
+  
+  .projects p {
+    color: #555;
+    line-height: 1.4;
+  }
+  
+  /* Headings */
+  h1 {
+    font-size: 400%;
+    line-height: 1.1;
+    text-wrap: balance;
+    margin-bottom: 0.5em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.1;
+    text-wrap: balance;
+  }
