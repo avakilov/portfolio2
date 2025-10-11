@@ -111,9 +111,22 @@ body {
     color: #777;
     font-size: 0.9em;
   }
+  
   .projects {
-    display: grid;                                /* enable grid layout */
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-    gap: 1em;                                     /* spacing between cards */
+    gap: 1em;
     margin-top: 1.5em;
   }
+
+  .projects article {
+    display: grid;                      
+    grid-template-rows: subgrid;        
+    grid-row: span 3;                   
+    background-color: white;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
