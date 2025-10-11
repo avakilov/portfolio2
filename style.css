@@ -12,3 +12,16 @@ body {
 nav li {
   display: contents;
 }
+nav a {
+    flex: 1;
+    text-align: center;          /* Centers the text */
+    text-decoration: none;       /* Removes the underline */
+    color: inherit;              /* Makes links use the same color as parent (white, for example) */
+    padding: 0.5em;              /* Adds breathing room around the text */
+  }
+  nav {
+    margin-bottom: 1em;   /* Adds a gap below the bar */
+  }
+  nav {
+    border-bottom: 1px solid oklch(80% 3% 200);  /* or simply gray */
+  }
