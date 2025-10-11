@@ -111,4 +111,9 @@ body {
     color: #777;
     font-size: 0.9em;
   }
-  
+  .projects {
+    display: grid;                                /* enable grid layout */
+    grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+    gap: 1em;                                     /* spacing between cards */
+    margin-top: 1.5em;
+  }
