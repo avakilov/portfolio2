@@ -25,3 +25,8 @@ nav a {
   nav {
     border-bottom: 1px solid oklch(80% 3% 200);  /* or simply gray */
   }
+  input,
+textarea,
+button {
+  font: inherit;   /* Use same font as the rest of the site */
+}
