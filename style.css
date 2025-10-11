@@ -30,3 +30,41 @@ textarea,
 button {
   font: inherit;   /* Use same font as the rest of the site */
 }
+form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5em; /* space between elements */
+    max-width: 600px;
+  }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    margin-bottom: 1em;
+  }
+  
+  input,
+  textarea {
+    font: inherit;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    font: inherit;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #005fa3;
+  }
+  
