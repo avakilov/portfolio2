@@ -1,41 +1,75 @@
+/* ===============================
+   GLOBAL PAGE STYLES
+=============================== */
 body {
-    /* Set line height to 1.5 times the font size
-         and use the OS’s UI font as the website font
-       */
     font: 100%/1.5 system-ui;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
   }
+  
+  /* ===============================
+     NAVIGATION BAR
+  =============================== */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #0077cc;
+    padding: 10px;
+    margin-bottom: 1em;             /* space below nav bar */
+    border-bottom: 1px solid #ccc;  /* subtle divider line */
+  }
+  
+  nav a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;          /* remove underline */
+    color: white;                   /* link text color */
+    padding: 0.5em;                 /* spacing inside each link */
+    font-weight: 500;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Highlight current page */
+  nav a.current {
+    border-bottom: 0.4em solid #fff;   /* thick underline */
+    padding-bottom: calc(0.5em - 0.4em);
+    font-weight: bold;
+  }
+  
+  /* ===============================
+     MAIN CONTENT
+  =============================== */
   main {
     max-width: 100ch;
-    margin-inline: max(1em, (100% - 100ch) / 2);
+    margin-inline: auto;
+    padding-inline: 1em;
   }
-  nav ul,
-nav li {
-  display: contents;
-}
-nav a {
-    flex: 1;
-    text-align: center;          /* Centers the text */
-    text-decoration: none;       /* Removes the underline */
-    color: inherit;              /* Makes links use the same color as parent (white, for example) */
-    padding: 0.5em;              /* Adds breathing room around the text */
+  
+  /* ===============================
+     IMAGES
+  =============================== */
+  img {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: block;
+    margin-top: 1em;
   }
-  nav {
-    margin-bottom: 1em;   /* Adds a gap below the bar */
-  }
-  nav {
-    border-bottom: 1px solid oklch(80% 3% 200);  /* or simply gray */
-  }
-  input,
-textarea,
-button {
-  font: inherit;   /* Use same font as the rest of the site */
-}
-form {
+  
+  /* ===============================
+     CONTACT FORM
+  =============================== */
+  form {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 0.5em; /* space between elements */
+    gap: 0.5em;
     max-width: 600px;
+    margin-top: 1em;
   }
   
   label {
@@ -47,7 +81,7 @@ form {
   
   input,
   textarea {
-    font: inherit;
+    font: inherit;                     /* use same font as page */
     width: 100%;
     padding: 0.5em;
     border: 1px solid #ccc;
@@ -66,5 +100,15 @@ form {
   
   button:hover {
     background-color: #005fa3;
+  }
+  
+  /* ===============================
+     FOOTER (optional if added later)
+  =============================== */
+  footer {
+    margin-top: 3em;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
   }
   
