@@ -157,3 +157,50 @@ body {
     line-height: 1.1;
     text-wrap: balance;
   }
+
+  /* Step 2: Styling the Navigation Bar */
+
+/* 2.1 Get <ul> and <li> out of the way */
+nav ul,
+nav li {
+  display: contents;
+}
+
+/* 2.2 Use Flexbox to lay out the navigation */
+nav {
+  display: flex;
+  justify-content: space-between; /* spreads links across width */
+  align-items: center;
+  margin-bottom: 1.5em; /* space below navbar */
+  border-bottom: 1px solid oklch(80% 3% 200); /* subtle gray border */
+  font-family: system-ui, sans-serif;
+}
+
+/* Make all <a> elements share space evenly */
+nav a {
+  flex: 1;
+  text-align: center;
+  text-decoration: none; /* remove underline */
+  color: inherit; /* inherit text color */
+  padding: 0.5em 0;
+  font-weight: 500;
+}
+
+/* Add hover effect for better interactivity */
+nav a:hover {
+  background-color: oklch(95% 3% 200);
+}
+
+/* Style for the current page link */
+nav a.current {
+  border-bottom: 0.4em solid oklch(80% 3% 200);
+  padding-bottom: 0.1em; /* reduce padding to offset border height */
+  font-weight: bold;
+}
+
+/* Optional: give page content some breathing room */
+body {
+  font: 100%/1.5 system-ui, sans-serif;
+  background-color: #fff;
+  margin: 2em;
+}
