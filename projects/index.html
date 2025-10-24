@@ -1,16 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Projects - Aryslanbek Vakilov</title>
-  <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 2 — Persuasive or Deceptive Visualization</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #222; }
+    h1, h2, h3 { color: #003366; }
+    img { max-width: 90%; display: block; margin: 15px auto; border-radius: 10px; box-shadow: 0 0 6px #ccc; }
+    ul { margin-left: 20px; }
+    .caption { font-style: italic; text-align: center; margin-top: 5px; }
+  </style>
 </head>
+
 <body>
-    <div class="projects">
-  <nav>
-  
-  </nav>
-  <h1>My Projects</h1>
-  <p>Here are some of my recent data science and machine learning projects.</p>
-</div>
+  <article> 
+  <h2>Project 2: Persuasive or Deceptive Visualization</h2>
+  <p><strong>Student:</strong> Aryslanbek Vakilov — UCSD Email: avakilov@ucsd.edu</p>
+
+  <h3>Proposition</h3>
+  <p><strong>"High income growth among the bottom 40% of the population does not always result in reduced poverty or lower inequality."</strong></p>
+  <hr>
+
+  <h2>FOR the P roposition</h2>
+  <img src="images/Plot_1.png" alt="High Income Growth ≠ Low Poverty Chart">
+  <p class="caption"><strong>Figure 1:</strong> High Income Growth ≠ Low Poverty. This chart shows that even countries with rapid income growth among the bottom 40% can still struggle with high poverty levels.</p>
+ </article>
+  <h3>Design Decisions and Rationale</h3>
+  <ul>
+    <li><strong>Data Transformation (Score = +1.5 Earnest):</strong> Filtered the data to the top 15 countries with the highest bottom-40% growth rates. This focuses attention on countries often seen as economic “success stories,” revealing that poverty can still remain high even in fast-growing economies.</li>
+    <li><strong>Color Encoding (Score = +2 Earnest):</strong> Used a blue-to-orange gradient to represent poverty headcount, making differences visually clear without distortion. Warmer tones draw attention to countries with greater poverty.</li>
+    <li><strong>Title Framing (Score = -0.5 Slightly Deceptive):</strong> The title “High Income Growth ≠ Low Poverty” intentionally provokes skepticism about economic growth. The wording creates a persuasive tone without overt bias.</li>
+  </ul>
+
+  <hr>
+
+  <h2>AGAINST the Proposition</h2>
+  <img src="images/Plot_2.png" alt="Inequality Persists Even as Poverty Declines Chart">
+  <p class="caption"><strong>Figure 2:</strong> Inequality Persists Even as Poverty Declines. This dual-axis chart shows that while poverty levels may fall, inequality (as measured by the Gini Index) often remains high.</p>
+
+  <h3>Design Decisions and Rationale</h3>
+  <ul>
+    <li><strong>Dual-Axis Encoding (Score = -1 Mildly Deceptive):</strong> Displayed poverty rates on the left axis and Gini Index on the right axis. This combination encourages comparison but can introduce interpretive bias through scale differences.</li>
+    <li><strong>Data Transformation (Score = +1.5 Earnest):</strong> Averaged values over several years to reduce noise and show broader trends in poverty and inequality rather than year-to-year fluctuations.</li>
+    <li><strong>Color and Line Styles (Score = +2 Earnest):</strong> Contrasting colors (red for inequality and blue for poverty) make the relationship clear at a glance and draw attention to the gap between declining poverty and persistent inequality.</li>
+  </ul>
+
+  <h3>About the Gini Index</h3>
+  <p>The Gini Index measures income inequality within a country on a scale from 0 (perfect equality) to 100 (maximum inequality). Including the Gini Index alongside poverty rates reveals whether economic growth benefits all citizens or mainly the wealthier segments of society. It is helpful for understanding how countries can reduce poverty while still struggling with inequality.</p>
+
+  <hr>
+
+  <h2>Final Reflection</h2>
+  <p>Working on this project helped me see how design choices influence the stories that data tell. Creating two visualizations from the same dataset showed how easy it is to shape perception without changing the numbers. Even small choices—titles, color scales, or axis limits—can guide a viewer toward a specific interpretation.</p>
+
+  <p>The biggest challenge was finding a balance between clarity and honesty. A visualization should be engaging but not misleading. I learned that ethical visualization is about being transparent with intent and faithful to the data, even when trying to persuade. In the end, persuasion is acceptable as long as it clarifies rather than conceals. As data visualizers, our goal is to inform people in a way that is truthful, clear, and thoughtful.</p>
+
 </body>
 </html>
