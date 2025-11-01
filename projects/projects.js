@@ -1,44 +1,41 @@
 import { fetchJSON, renderProjects } from '../global.js';
 
+// Load and render project data
 const projects = await fetchJSON('../lib/projects.json');
 const projectsContainer = document.querySelector('.projects');
 renderProjects(projects, projectsContainer, 'h2');
 
+// Import D3
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
-// Create arc generator
-let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+// --- D3 PIE CHART SETUP ---
 
-// Example circle (full arc)
-let arc = arcGenerator({
-  startAngle: 0,
-  endAngle: 2 * Math.PI,
-});
-d3.select('svg').append('path').attr('d', arc).attr('fill', 'red');
-
-// Data for pie-like arcs
+// Sample data (you can replace with dynamic data if needed)
 let data = [1, 2];
-let total = d3.sum(data); // simpler than manual loop
-
-let angle = 0;
-let arcData = [];
-
-for (let d of data) {
-  let endAngle = angle + (d / total) * 2 * Math.PI;
-  arcData.push({ startAngle: angle, endAngle });
-  angle = endAngle;
-}
-
-// Generate SVG paths for each arc
-let arcs = arcData.map((d) => arcGenerator(d));
-
-// Colors for each arc
 let colors = ['gold', 'purple'];
 
-// Append each arc to the SVG with its color
-arcs.forEach((arc, idx) => {
-  d3.select('svg')
-    .append('path')
-    .attr('d', arc)
-    .attr('fill', colors[idx]); // ✅ fill color applied here
-});
+// SVG setup (centered)
+const width = 200;
+const height = 200;
+const radius = 80;
+
+const svg = d3
+  .select('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .append('g')
+  .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+// Create pie and arc generators
+const pie = d3.pie();
+const arcGenerator = d3.arc().innerRadius(0).outerRadius(radius);
+
+// Bind data and create slices
+svg
+  .selectAll('path')
+  .data(pie(data))
+  .join('path')
+  .attr('d', arcGenerator)
+  .attr('fill', (d, i) => colors[i])
+  .attr('stroke', 'white')
+  .attr('stroke-width', 1);
