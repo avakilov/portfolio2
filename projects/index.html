@@ -4,22 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>12 Projects</title>
-  <script src="index.js" type="module" defer></script>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #222; }
-    h1, h2, h3 { color: #003366; }
-    img { max-width: 90%; display: block; margin: 15px auto; border-radius: 10px; box-shadow: 0 0 6px #ccc; }
-    ul { margin-left: 20px; }
-    .caption { font-style: italic; text-align: center; margin-top: 5px; }
-  </style>
   <link rel="stylesheet" href="../style.css">
-  <script src="projects.js"> </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      margin: 40px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #fff;
+      text-transform: lowercase;
+    }
+
+    .chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    svg {
+      width: 300px;
+      height: 300px;
+    }
+
+    .legend {
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-size: 14px;
+      background: transparent;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 0;
+    }
+
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+    }
+  </style>
+  <script type="module" src="projects.js" defer></script>
 </head>
 
 <body>
-  <h1>12 Projects</h1>
-  <svg id="projects-pie-plot" viewBox="-50 -50 100 100">
-    <path d="M -50 0 A 50 50 0 0 1 50 0 A 50 50 0 0 1 -50 0" fill="red" />
-  </svg>
+  <h1>12 projects</h1>
+  <div class="chart-container">
+    <svg id="projects-pie-plot"></svg>
+    <div class="legend" id="legend"></div>
+  </div>
 </body>
 </html>
