@@ -1,3 +1,4 @@
+/* Reset basic styles */
 body {
     margin: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -5,6 +6,50 @@ body {
     color: black;
   }
   
+  /* --- Navigation Bar --- */
+  .navbar {
+    width: 100%;
+    border-bottom: 1px solid #d3d8da;
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    gap: 60px;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  
+  .navbar a:hover {
+    color: #333;
+  }
+  
+  .navbar a.active {
+    font-weight: 700;
+  }
+  
+  .navbar a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 6px;
+    background-color: #c5cfd2;
+  }
+  
+  /* --- Page Content --- */
   .meta-page {
     padding: 80px 180px;
   }
