@@ -1,5 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
+// Load the data
 async function loadData() {
   const data = await d3.csv('loc.csv', (row) => ({
     ...row,
@@ -12,6 +13,7 @@ async function loadData() {
   return data;
 }
 
+// Process commits
 function processCommits(data) {
   return d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
     const first = lines[0];
@@ -38,6 +40,7 @@ function processCommits(data) {
   });
 }
 
+// Render summary stats
 function renderCommitInfo(data, commits) {
   const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
@@ -64,10 +67,76 @@ function renderCommitInfo(data, commits) {
   );
 }
 
+// Render bubble chart for commits by time of day
+function renderCommitChart(commits) {
+  const margin = { top: 40, right: 20, bottom: 50, left: 70 };
+  const width = 900 - margin.left - margin.right;
+  const height = 500 - margin.top - margin.bottom;
+
+  const svg = d3
+    .select("#commit-chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  // X scale = commit date
+  const x = d3
+    .scaleTime()
+    .domain(d3.extent(commits, (d) => d.datetime))
+    .range([0, width]);
+
+  // Y scale = hour of day
+  const y = d3
+    .scaleLinear()
+    .domain([0, 24])
+    .range([height, 0]);
+
+  // Bubble size = total lines
+  const r = d3
+    .scaleSqrt()
+    .domain([0, d3.max(commits, (d) => d.totalLines)])
+    .range([3, 25]);
+
+  // Axes
+  const xAxis = d3.axisBottom(x).ticks(10).tickFormat(d3.timeFormat("%a %d"));
+  const yAxis = d3.axisLeft(y).ticks(12).tickFormat((d) => `${d.toString().padStart(2, "0")}:00`);
+
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(xAxis);
+
+  svg.append("g").call(yAxis);
+
+  // Circles (bubbles)
+  svg
+    .selectAll("circle")
+    .data(commits)
+    .enter()
+    .append("circle")
+    .attr("cx", (d) => x(d.datetime))
+    .attr("cy", (d) => y(d.hourFrac))
+    .attr("r", (d) => r(d.totalLines))
+    .style("fill", "steelblue")
+    .style("opacity", 0.5);
+
+  // Title
+  svg
+    .append("text")
+    .attr("x", 0)
+    .attr("y", -10)
+    .attr("font-size", "22px")
+    .attr("font-weight", "bold")
+    .text("Commits by time of day");
+}
+
+// Main
 async function main() {
   const data = await loadData();
   const commits = processCommits(data);
   renderCommitInfo(data, commits);
+  renderCommitChart(commits);
 }
 
 main();
