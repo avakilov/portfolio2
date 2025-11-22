@@ -13,36 +13,32 @@ async function loadData() {
   return data;
 }
 
-// Process commits
+// Convert raw data → grouped commits
 function processCommits(data) {
-  return d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
+  const commits = d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
     const first = lines[0];
-    const { author, date, time, timezone, datetime } = first;
-    const commitInfo = {
+    return {
       id: commit,
-      url: `https://github.com/vis-society/lab-7/commit/${commit}`,
-      author,
-      date,
-      time,
-      timezone,
-      datetime,
-      hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
-      totalLines: lines.length
+      datetime: first.datetime,
+      author: first.author,
+      totalLines: lines.length,
+      hourFrac: first.datetime.getHours() + first.datetime.getMinutes() / 60,
+      lines
     };
-
-    Object.defineProperty(commitInfo, 'lines', {
-      value: lines,
-      writable: false,
-      enumerable: false
-    });
-
-    return commitInfo;
   });
+
+  // Sort oldest → newest
+  commits.sort((a, b) => a.datetime - b.datetime);
+
+  return commits;
 }
 
 // Render summary stats
 function renderCommitInfo(data, commits) {
-  const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+  const stats = d3.select('#stats');
+  stats.html("");
+
+  const dl = stats.append('dl').attr('class', 'stats');
 
   dl.append('dt').html('COMMITS');
   dl.append('dd').text(commits.length);
@@ -67,8 +63,10 @@ function renderCommitInfo(data, commits) {
   );
 }
 
-// Render bubble chart for commits by time of day
+// Render bubble chart
 function renderCommitChart(commits) {
+  d3.select("#commit-chart").html("");
+
   const margin = { top: 40, right: 20, bottom: 50, left: 70 };
   const width = 900 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -81,37 +79,26 @@ function renderCommitChart(commits) {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // X scale = commit date
-  const x = d3
-    .scaleTime()
+  const x = d3.scaleTime()
     .domain(d3.extent(commits, (d) => d.datetime))
     .range([0, width]);
 
-  // Y scale = hour of day
-  const y = d3
-    .scaleLinear()
+  const y = d3.scaleLinear()
     .domain([0, 24])
     .range([height, 0]);
 
-  // Bubble size = total lines
-  const r = d3
-    .scaleSqrt()
+  const r = d3.scaleSqrt()
     .domain([0, d3.max(commits, (d) => d.totalLines)])
     .range([3, 25]);
 
-  // Axes
-  const xAxis = d3.axisBottom(x).ticks(10).tickFormat(d3.timeFormat("%a %d"));
-  const yAxis = d3.axisLeft(y).ticks(12).tickFormat((d) => `${d.toString().padStart(2, "0")}:00`);
-
   svg.append("g")
     .attr("transform", `translate(0,${height})`)
-    .call(xAxis);
+    .call(d3.axisBottom(x).ticks(10).tickFormat(d3.timeFormat("%a %d")));
 
-  svg.append("g").call(yAxis);
+  svg.append("g")
+    .call(d3.axisLeft(y).ticks(12).tickFormat(d => `${String(d).padStart(2, "0")}:00`));
 
-  // Circles (bubbles)
-  svg
-    .selectAll("circle")
+  svg.selectAll("circle")
     .data(commits)
     .enter()
     .append("circle")
@@ -121,9 +108,7 @@ function renderCommitChart(commits) {
     .style("fill", "steelblue")
     .style("opacity", 0.5);
 
-  // Title
-  svg
-    .append("text")
+  svg.append("text")
     .attr("x", 0)
     .attr("y", -10)
     .attr("font-size", "22px")
@@ -131,12 +116,38 @@ function renderCommitChart(commits) {
     .text("Commits by time of day");
 }
 
+// Slider update
+function attachSlider(allCommits, rawData) {
+  const slider = document.getElementById("commit-slider");
+  const dateText = document.getElementById("slider-date");
+
+  slider.max = allCommits.length - 1;
+  slider.value = allCommits.length - 1;
+
+  function update() {
+    const index = +slider.value;
+    const selected = allCommits.slice(0, index + 1);
+    const lastDate = selected[selected.length - 1].datetime;
+    dateText.textContent = d3.timeFormat("%B %d, %Y at %-I:%M %p")(lastDate);
+
+    const filteredRawData = rawData.filter(d =>
+      d.datetime <= lastDate
+    );
+
+    renderCommitInfo(filteredRawData, selected);
+    renderCommitChart(selected);
+  }
+
+  slider.addEventListener("input", update);
+
+  update(); // initial render
+}
+
 // Main
 async function main() {
   const data = await loadData();
   const commits = processCommits(data);
-  renderCommitInfo(data, commits);
-  renderCommitChart(commits);
+  attachSlider(commits, data);
 }
 
 main();

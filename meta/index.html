@@ -20,6 +20,13 @@
     </ul>
   </nav>
 
+  <!-- Slider Section -->
+  <section id="slider-section">
+    <label for="commit-slider" style="font-weight:600;">Show commits until:</label>
+    <input type="range" id="commit-slider" min="0" max="100" value="100" style="width:70%;">
+    <span id="slider-date" style="margin-left:15px; font-weight:600;"></span>
+  </section>
+
   <!-- Meta Summary Section -->
   <section class="meta-page">
     <h1>Meta</h1>
@@ -27,13 +34,13 @@
     <div id="stats"></div>
   </section>
 
-  <!-- Commits by Time of Day Chart -->
+  <!-- Chart Section -->
   <section id="commits-chart-section">
     <h2>Commits by time of day</h2>
     <div id="commit-chart"></div>
   </section>
 
-  <!-- Import JavaScript (as module) -->
+  <!-- JS -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
