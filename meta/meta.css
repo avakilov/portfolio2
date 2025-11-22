@@ -1,5 +1,5 @@
 /* ------------------------------
-   GLOBAL BODY + NAVBAR (yours)
+   GLOBAL BODY + NAVBAR
 ------------------------------ */
 body {
   font-family: Arial, sans-serif;
@@ -71,7 +71,6 @@ body {
   padding-bottom: 10px;
 }
 
-/* Two-column layout: filename | dots */
 .files {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -81,10 +80,9 @@ body {
 }
 
 .file-row {
-  display: contents; /* dt + dd stay aligned inside grid */
+  display: contents;
 }
 
-/* filename and line count */
 .files dt code {
   font-size: 15px;
   font-weight: bold;
@@ -98,7 +96,7 @@ body {
   color: #777;
 }
 
-/* container for dots */
+/* Dot container */
 .files dd {
   grid-column: 2;
   display: flex;
@@ -110,19 +108,18 @@ body {
   margin: 0;
 }
 
-/* individual dots */
+/* Individual colored dots */
 .loc {
   display: flex;
   width: 0.5em;
   aspect-ratio: 1;
-  background: steelblue;
+  background: var(--color);
   border-radius: 50%;
 }
 
 /* ------------------------------
    COMMITS CHART
 ------------------------------ */
-
 #commits-chart-section {
   padding: 40px;
 }
@@ -140,7 +137,6 @@ body {
 /* ------------------------------
    SLIDER
 ------------------------------ */
-
 #slider-section {
   padding: 40px;
   padding-bottom: 10px;

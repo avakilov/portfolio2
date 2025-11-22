@@ -1,6 +1,19 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 
-// Load the data
+// ------------------------------------
+// COLOR SCALE FOR FILE TYPES
+// ------------------------------------
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+// Extract file extension ("html", "js", "svelte", etc.)
+function getFileType(fileName) {
+  const ext = fileName.split('.').pop();
+  return ext;
+}
+
+// ------------------------------------
+// LOAD RAW LOC DATA
+// ------------------------------------
 async function loadData() {
   const data = await d3.csv('loc.csv', (row) => ({
     ...row,
@@ -13,7 +26,9 @@ async function loadData() {
   return data;
 }
 
-// Convert raw data → grouped commits
+// ------------------------------------
+// PROCESS INTO COMMIT OBJECTS
+// ------------------------------------
 function processCommits(data) {
   const commits = d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
     const first = lines[0];
@@ -27,12 +42,13 @@ function processCommits(data) {
     };
   });
 
-  // Sort oldest → newest
   commits.sort((a, b) => a.datetime - b.datetime);
   return commits;
 }
 
-// Render summary stats
+// ------------------------------------
+// SUMMARY STATS
+// ------------------------------------
 function renderCommitInfo(data, commits) {
   const stats = d3.select('#stats');
   stats.html("");
@@ -62,12 +78,13 @@ function renderCommitInfo(data, commits) {
   );
 }
 
-// Render files unit visualization (dots per line)
+// ------------------------------------
+// FILES UNIT VISUALIZATION (DOTS)
+// ------------------------------------
 function renderFilesUnitViz(filteredData) {
   const filesContainer = d3.select("#files");
   filesContainer.html("");
 
-  // group by file and attach each file's lines
   const files = d3.groups(filteredData, d => d.file)
     .map(([file, lines]) => ({ file, lines }))
     .sort((a, b) => b.lines.length - a.lines.length);
@@ -79,25 +96,28 @@ function renderFilesUnitViz(filteredData) {
     .join("div")
     .attr("class", "file-row");
 
-  // dt: filename + count
+  // Label
   fileRows.append("dt")
     .html(d => `
       <code>${d.file}</code>
       <small>${d.lines.length} lines</small>
     `);
 
-  // dd: dots (one per line)
+  // Dots
   fileRows.append("dd")
     .each(function(d) {
       d3.select(this)
         .selectAll("div")
         .data(d.lines)
         .join("div")
-        .attr("class", "loc");
+        .attr("class", "loc")
+        .style("--color", () => colors(getFileType(d.file)));  // COLOR APPLIED HERE
     });
 }
 
-// Render bubble chart
+// ------------------------------------
+// BUBBLE CHART
+// ------------------------------------
 function renderCommitChart(commits) {
   d3.select("#commit-chart").html("");
 
@@ -149,7 +169,9 @@ function renderCommitChart(commits) {
     .text("Commits by time of day");
 }
 
-// Slider update
+// ------------------------------------
+// SLIDER LOGIC
+// ------------------------------------
 function attachSlider(allCommits, rawData) {
   const slider = document.getElementById("commit-slider");
   const dateText = document.getElementById("slider-date");
@@ -167,17 +189,19 @@ function attachSlider(allCommits, rawData) {
 
     const filteredRawData = rawData.filter(d => d.datetime <= lastDate);
 
-    // update all sections
+    // Update all visuals
     renderFilesUnitViz(filteredRawData);
     renderCommitInfo(filteredRawData, selectedCommits);
     renderCommitChart(selectedCommits);
   }
 
   slider.addEventListener("input", update);
-  update(); // initial render
+  update();
 }
 
-// Main
+// ------------------------------------
+// MAIN ENTRY
+// ------------------------------------
 async function main() {
   const data = await loadData();
   const commits = processCommits(data);
