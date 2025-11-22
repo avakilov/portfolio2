@@ -29,7 +29,6 @@ function processCommits(data) {
 
   // Sort oldest → newest
   commits.sort((a, b) => a.datetime - b.datetime);
-
   return commits;
 }
 
@@ -61,6 +60,41 @@ function renderCommitInfo(data, commits) {
       Array.from(d3.group(data, (d) => d.file), ([, v]) => v.length)
     )
   );
+}
+
+// Render files unit visualization (dots per line)
+function renderFilesUnitViz(filteredData) {
+  const filesContainer = d3.select("#files");
+  filesContainer.html("");
+
+  // group by file and attach each file's lines
+  const files = d3.groups(filteredData, d => d.file)
+    .map(([file, lines]) => ({ file, lines }))
+    .sort((a, b) => b.lines.length - a.lines.length);
+
+  const dl = filesContainer.append("dl").attr("class", "files");
+
+  const fileRows = dl.selectAll("div.file-row")
+    .data(files)
+    .join("div")
+    .attr("class", "file-row");
+
+  // dt: filename + count
+  fileRows.append("dt")
+    .html(d => `
+      <code>${d.file}</code>
+      <small>${d.lines.length} lines</small>
+    `);
+
+  // dd: dots (one per line)
+  fileRows.append("dd")
+    .each(function(d) {
+      d3.select(this)
+        .selectAll("div")
+        .data(d.lines)
+        .join("div")
+        .attr("class", "loc");
+    });
 }
 
 // Render bubble chart
@@ -100,8 +134,7 @@ function renderCommitChart(commits) {
 
   svg.selectAll("circle")
     .data(commits)
-    .enter()
-    .append("circle")
+    .join("circle")
     .attr("cx", (d) => x(d.datetime))
     .attr("cy", (d) => y(d.hourFrac))
     .attr("r", (d) => r(d.totalLines))
@@ -126,20 +159,21 @@ function attachSlider(allCommits, rawData) {
 
   function update() {
     const index = +slider.value;
-    const selected = allCommits.slice(0, index + 1);
-    const lastDate = selected[selected.length - 1].datetime;
-    dateText.textContent = d3.timeFormat("%B %d, %Y at %-I:%M %p")(lastDate);
+    const selectedCommits = allCommits.slice(0, index + 1);
+    const lastDate = selectedCommits[selectedCommits.length - 1].datetime;
 
-    const filteredRawData = rawData.filter(d =>
-      d.datetime <= lastDate
-    );
+    dateText.textContent =
+      d3.timeFormat("%B %d, %Y at %-I:%M %p")(lastDate);
 
-    renderCommitInfo(filteredRawData, selected);
-    renderCommitChart(selected);
+    const filteredRawData = rawData.filter(d => d.datetime <= lastDate);
+
+    // update all sections
+    renderFilesUnitViz(filteredRawData);
+    renderCommitInfo(filteredRawData, selectedCommits);
+    renderCommitChart(selectedCommits);
   }
 
   slider.addEventListener("input", update);
-
   update(); // initial render
 }
 

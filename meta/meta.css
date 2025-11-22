@@ -1,3 +1,6 @@
+/* ------------------------------
+   GLOBAL BODY + NAVBAR (yours)
+------------------------------ */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -32,6 +35,9 @@ body {
   border-bottom: 3px solid #ccd3d8;
 }
 
+/* ------------------------------
+   META PAGE
+------------------------------ */
 .meta-page {
   padding: 40px;
 }
@@ -56,6 +62,67 @@ body {
   margin: 5px 0 0;
 }
 
+/* ------------------------------
+   FILES UNIT VISUALIZATION
+------------------------------ */
+
+#files {
+  padding: 40px;
+  padding-bottom: 10px;
+}
+
+/* Two-column layout: filename | dots */
+.files {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  row-gap: 25px;
+  column-gap: 30px;
+  margin-bottom: 40px;
+}
+
+.file-row {
+  display: contents; /* dt + dd stay aligned inside grid */
+}
+
+/* filename and line count */
+.files dt code {
+  font-size: 15px;
+  font-weight: bold;
+  color: #000;
+}
+
+.files dt small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #777;
+}
+
+/* container for dots */
+.files dd {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  align-content: start;
+  gap: 0.15em;
+  padding-top: 0.4em;
+  margin: 0;
+}
+
+/* individual dots */
+.loc {
+  display: flex;
+  width: 0.5em;
+  aspect-ratio: 1;
+  background: steelblue;
+  border-radius: 50%;
+}
+
+/* ------------------------------
+   COMMITS CHART
+------------------------------ */
+
 #commits-chart-section {
   padding: 40px;
 }
@@ -68,4 +135,25 @@ body {
 #commit-chart {
   border: 1px solid #ddd;
   padding: 10px;
+}
+
+/* ------------------------------
+   SLIDER
+------------------------------ */
+
+#slider-section {
+  padding: 40px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#commit-slider {
+  width: 60%;
+}
+
+#slider-date {
+  font-weight: bold;
+  color: #333;
 }
