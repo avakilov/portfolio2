@@ -5,12 +5,6 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 // ------------------------------------
 const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-// Extract file extension ("html", "js", "svelte", etc.)
-function getFileType(fileName) {
-  const ext = fileName.split('.').pop();
-  return ext;
-}
-
 // ------------------------------------
 // LOAD RAW LOC DATA
 // ------------------------------------
@@ -96,14 +90,14 @@ function renderFilesUnitViz(filteredData) {
     .join("div")
     .attr("class", "file-row");
 
-  // Label
+  // Filename + small line count
   fileRows.append("dt")
     .html(d => `
       <code>${d.file}</code>
       <small>${d.lines.length} lines</small>
     `);
 
-  // Dots
+  // LOC dots, colored by "type" column
   fileRows.append("dd")
     .each(function(d) {
       d3.select(this)
@@ -111,7 +105,7 @@ function renderFilesUnitViz(filteredData) {
         .data(d.lines)
         .join("div")
         .attr("class", "loc")
-        .style("--color", () => colors(getFileType(d.file)));  // COLOR APPLIED HERE
+        .style("--color", (line) => colors(line.type));
     });
 }
 
